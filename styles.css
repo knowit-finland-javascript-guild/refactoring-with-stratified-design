@@ -12,3 +12,7 @@ html {
 #slide-content h1 {
   color: var(--knowit-forest);
 }
+
+.col-right {
+  padding-left: 2em;
+}

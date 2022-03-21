@@ -1,5 +1,7 @@
 ---
 layout: cover
+drawings:
+  enabled: true
 ---
 
 # Refactoring with stratified design
@@ -57,8 +59,11 @@ const scoreCards: ScoreCard = [
 ```
 
 ---
+layout: two-cols
+other: none
+---
 
-```typescript{0|11,27|13,17|24|3-5|1|7-8|all}
+```typescript{11-27|0|14|23|13,17|18,19,20|21|all}
 import sum from "mathlib";
 
 const getTotal = (results: number[]) => {
@@ -88,7 +93,27 @@ const convertResultsToCsvRows = (players: Player[]): string[] => {
 };
 ```
 
----
+::right::
+
+<v-click>
+
+- native language features
+- generic functions
+- specific functions of domain X
+- specific functions of domain Y
+
+</v-click>
+
+<v-click>
+```mermaid
+flowchart TD
+convertResultsToCsvRows --> getPlayersCard ---> nativem
+convertResultsToCsvRows --> getTotal --> sum --> nativem
+convertResultsToCsvRows ------> nativem[native array methods]
+convertResultsToCsvRows ------> forl[for loop]
+convertResultsToCsvRows ------> arrI[array index]
+```
+</v-click>
 
 <!--
 
