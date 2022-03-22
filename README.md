@@ -28,6 +28,5 @@ b. Think about a piece of code you wrote today / this week
 
 # BTW
 
-- Check out [slidev](sli.dev) and [vitest](vitest.dev)!
+- Check out [slidev](https://sli.dev) and [vitest](https://vitest.dev)!
 - [Normand's book described here](https://www.manning.com/books/grokking-simplicity)
-
