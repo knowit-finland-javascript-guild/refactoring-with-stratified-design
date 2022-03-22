@@ -1,11 +1,23 @@
-function ClearContent(myNode) {
+function switchToDefault() {
+  //just a stub
+}
+
+function movePres() {
+  //just a stub
+}
+
+function listToLink(this_li) {
+  this_li.addEventListener("click", movePres, false);
+}
+
+function clearContent(myNode) {
   //Remove child nodes,
   while (myNode.firstChild) {
     myNode.removeChild(myNode.firstChild);
   }
 }
 
-function CreateTag(tagname, barid, thisdocument, tagclass, parenttag) {
+function createTag(tagname, barid, thisdocument, tagclass, parenttag) {
   var bar = thisdocument.createElement(tagname);
   bar.id = barid;
   bar.className = tagclass;
@@ -15,14 +27,14 @@ function CreateTag(tagname, barid, thisdocument, tagclass, parenttag) {
   return bar;
 }
 
-function TagWithText(tagname, tagtext, tagclass) {
+function tagWithText(tagname, tagtext, tagclass) {
   var tag = document.createElement(tagname);
   tag.textContent = tagtext;
   tag.className = tagclass;
   return tag;
 }
 
-function TagParent(tagname, childlist, classname, tagid) {
+function tagParent(tagname, childlist, classname, tagid) {
   var tag = document.createElement(tagname);
   tag.className = classname;
   for (var child_idx in childlist) {
@@ -34,59 +46,86 @@ function TagParent(tagname, childlist, classname, tagid) {
   return tag;
 }
 
-export function CreateNavigation(prestype) {
-  if (prestype == "default") {
-    //Create links in the secondary screen for jumping from one section to another
+export function createNavigation(items) {
+  var contentlist = document.createElement("div");
 
-    var contentlist = document.getElementById("section_nav");
-    if (contentlist == undefined) {
-      var navigatorcontainer = CreateTag(
-        "section",
-        "navigatorcontainer",
-        document,
-        ""
-      );
+  var navigatorcontainer = createTag(
+    "section",
+    "navigatorcontainer",
+    document,
+    ""
+  );
 
-      //This is where the general navigation between sections is
-      CreateTag(
-        "section",
-        "section_nav",
-        document,
-        "navchildsec",
-        navigatorcontainer
-      );
-      //This is where the upcoming/previous slides will be presented
-      CreateTag(
-        "section",
-        "previewer",
-        document,
-        "navchildsec",
-        navigatorcontainer
-      );
+  //This is where the general navigation between sections is
+  createTag(
+    "section",
+    "section_nav",
+    document,
+    "navchildsec",
+    navigatorcontainer
+  );
+  //This is where the upcoming/previous slides will be presented
+  createTag(
+    "section",
+    "previewer",
+    document,
+    "navchildsec",
+    navigatorcontainer
+  );
 
-      //This is where any spontaneously added slides will be listed
-      var linkheader = TagWithText("h3", "Lisätty sisältö", "unhlpresentation");
-      linkheader.id = "addedcontentheader";
-      navigatorcontainer.appendChild(
-        TagParent(
-          "div",
-          [linkheader, TagParent("div", [], "", "addedcontent")],
-          "",
-          "addedcontentparent"
-        )
-      );
-    } else {
-      ClearContent(contentlist);
-    }
-  }
+  var addedContentHeader = tagWithText(
+    "h3",
+    "Lisätty sisältö",
+    "unhlpresentation"
+  );
+  addedContentHeader.id = "addedcontentheader";
+  navigatorcontainer.appendChild(
+    tagParent(
+      "div",
+      [addedContentHeader, tagParent("div", [], "", "addedcontent")],
+      "",
+      "addedcontentparent"
+    )
+  );
 
   var sectionlist = document.createElement("ul");
   sectionlist.id = "navigator_sectionlist";
-  if (prestype == "spontaneous") {
-    sectionlist.id = "addedcontent_sectionlist";
-    sectionlist.className = "unhlnavsection";
-  } else {
-    //Highlight the default presentation's navigation
-    sectionlist.className = "hlnavsection";
+  sectionlist.className = "hlnavsection";
+
+  for (let thissec of items) {
+    var this_li = document.createElement("li");
+    if (thissec.name) {
+      this_li.textContent = thissec.name;
+    } else {
+      this_li.textContent = "Untitled";
+    }
+    //The section_nav_header class helps in highlighting in the navigator
+    var sec_classname = "unhlsection";
+    this_li.className = sec_classname;
+    listToLink(this_li);
+    //Now, feed the lower level elements to the tree
+    if (thissec.type === "section") {
+      var subsectionlist = document.createElement("ul");
+      for (let thissubsec of thissec.items) {
+        var this_subli = document.createElement("li");
+        this_subli.className = sec_classname;
+        this_subli.textContent = thissubsec.name;
+        subsectionlist.appendChild(this_subli);
+        listToLink(this_subli);
+      }
+      this_li.appendChild(subsectionlist);
+    }
+    sectionlist.appendChild(this_li);
   }
+
+  var linkheader = tagWithText("h3", "Sisältö", "hlpresentation");
+  linkheader.id = "defaultcontentheader";
+  linkheader.addEventListener("click", switchToDefault, false);
+  contentlist.appendChild(linkheader);
+
+  contentlist.appendChild(sectionlist);
+
+  document.body.appendChild(contentlist);
+  document.body.appendChild(navigatorcontainer);
+  document.body.style.overflow = "auto";
 }
