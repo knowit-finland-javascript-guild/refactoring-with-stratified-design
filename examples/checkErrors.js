@@ -1,11 +1,3 @@
-
-const validateAuthors = (authors) => {
-  if (authors.length === 0) {
-    return addMessage()
-  }
-  authors[]
-}
-
 export function checkErrors(fields) {
   const {
     title,
@@ -14,8 +6,6 @@ export function checkErrors(fields) {
     authors = [],
   } = fields;
   const invalidFields = [];
-  const invalidAuthors = validateAuthors()
-  invalidFields = [...invalidAuthors, ];
 
   if (authors.length === 0) {
     invalidFields.push({
