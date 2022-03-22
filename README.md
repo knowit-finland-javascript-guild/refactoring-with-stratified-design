@@ -9,6 +9,7 @@ Choose between (or do both):
 
 a. Take a look at files at `./examples/`
 
+- Before starting, launch the test suite by running `npm test`
 - look at the code and try to figure out a logical structure
 - stratify the code to logical layers better corresponding to the level of
   detail of the function at hand
@@ -24,3 +25,9 @@ b. Think about a piece of code you wrote today / this week
 - Think about possible refactorings:
   - would it make sense to move something around
   - would that bring any benefits in terms of maintainability / readability / testability?
+
+# BTW
+
+- Check out [slidev](sli.dev) and [vitest](vitest.dev)!
+- [Normand's book described here](https://www.manning.com/books/grokking-simplicity)
+
