@@ -1,5 +1,12 @@
+function ClearContent(myNode) {
+  //Remove child nodes,
+  while (myNode.firstChild) {
+    myNode.removeChild(myNode.firstChild);
+  }
+}
+
 function CreateTag(tagname, barid, thisdocument, tagclass, parenttag) {
-  bar = thisdocument.createElement(tagname);
+  var bar = thisdocument.createElement(tagname);
   bar.id = barid;
   bar.className = tagclass;
   if (parenttag !== undefined) {
@@ -8,8 +15,26 @@ function CreateTag(tagname, barid, thisdocument, tagclass, parenttag) {
   return bar;
 }
 
-function CreateNavigation(prestype) {
-  var updated = false;
+function TagWithText(tagname, tagtext, tagclass) {
+  var tag = document.createElement(tagname);
+  tag.textContent = tagtext;
+  tag.className = tagclass;
+  return tag;
+}
+
+function TagParent(tagname, childlist, classname, tagid) {
+  var tag = document.createElement(tagname);
+  tag.className = classname;
+  for (var child_idx in childlist) {
+    tag.appendChild(childlist[child_idx]);
+  }
+  if (tagid !== undefined) {
+    tag.id = tagid;
+  }
+  return tag;
+}
+
+export function CreateNavigation(prestype) {
   if (prestype == "default") {
     //Create links in the secondary screen for jumping from one section to another
 
@@ -23,7 +48,7 @@ function CreateNavigation(prestype) {
       );
 
       //This is where the general navigation between sections is
-      var contentlist = CreateTag(
+      CreateTag(
         "section",
         "section_nav",
         document,
@@ -31,7 +56,7 @@ function CreateNavigation(prestype) {
         navigatorcontainer
       );
       //This is where the upcoming/previous slides will be presented
-      var versepreview = CreateTag(
+      CreateTag(
         "section",
         "previewer",
         document,
@@ -42,7 +67,6 @@ function CreateNavigation(prestype) {
       //This is where any spontaneously added slides will be listed
       var linkheader = TagWithText("h3", "Lisätty sisältö", "unhlpresentation");
       linkheader.id = "addedcontentheader";
-      linkheader.addEventListener("click", SwitchToSpontaneous, false);
       navigatorcontainer.appendChild(
         TagParent(
           "div",
@@ -53,7 +77,6 @@ function CreateNavigation(prestype) {
       );
     } else {
       ClearContent(contentlist);
-      updated = true;
     }
   }
 
