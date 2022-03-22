@@ -1,4 +1,4 @@
-_Read `slides.md` or `slides-export.pdf` for the actual content!_
+_Read [slides.md](https://github.com/KnowitJSTSGuild/refactoring-with-stratified-design/blob/master/slides.md) or [slides-export.pdf](https://github.com/KnowitJSTSGuild/refactoring-with-stratified-design/blob/master/slides-export.pdf) for the actual content!_
 
 # Workshop
 
