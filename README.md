@@ -13,6 +13,9 @@ a. Take a look at files at `./examples/`
 - stratify the code to logical layers better corresponding to the level of
   detail of the function at hand
 - refactor and see if the tests still pass
+- If time allows:
+  - sketch call graphs of the original code and the refactored code
+  - compare
 
 b. Think about a piece of code you wrote today / this week
 
@@ -21,6 +24,3 @@ b. Think about a piece of code you wrote today / this week
 - Think about possible refactorings:
   - would it make sense to move something around
   - would that bring any benefits in terms of maintainability / readability / testability?
-- If time allows:
-  - sketch call graphs of the original code and the refactored code
-  - compare

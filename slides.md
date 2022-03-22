@@ -73,9 +73,10 @@ const scoreCards: ScoreCard = [
 ---
 layout: two-cols
 other: none
+clicks: 14
 ---
 
-```typescript{11-27|0|14|23|13,17|18,19,20|21|all}
+```typescript{11-27|0|14|23|13,17|18,19,20|21|all|13,17,18,19,20,24|3-5|7-8|0|all}
 import sum from "mathlib";
 
 const getTotal = (results: number[]) => {
@@ -107,16 +108,15 @@ const convertResultsToCsvRows = (players: Player[]): string[] => {
 
 ::right::
 
-<v-click>
+<ul>
+<li v-click="8">native language features</li>
+<li v-click="9">generic function</li>
+<li v-click="10">specific functions of domain X  </li>
+<li v-click="11">specific functions of domain Y  </li>
 
-- native language features
-- generic functions
-- specific functions of domain X
-- specific functions of domain Y
+</ul>
 
-</v-click>
-
-<v-click>
+<v-click at="13">
 
 ```mermaid
 flowchart TD
@@ -130,8 +130,9 @@ convertResultsToCsvRows ------> arrI[array index]
 </v-click>
 
 ---
-
-## layout: two-cols
+layout: two-cols
+other: none
+---
 
 # Some principles
 
@@ -172,29 +173,100 @@ addAxisY ---> cl1 --->cap[Canvas api]
 </v-click>
 
 ---
+clicks: 13
+---
 
 # Conceptualizing a familiar process
 
 - How to make a language feature first-class?
 
-<div class="flex" v-click>
+<div class="flex">
 
-<div>
+<div v-click="2">
 
-```typescript
+```typescript{all|all|all|all|all|all|all|1|3-5|2}
 try {
-} catch {}
+  doSomething();
+} catch {
+  logErrors();
+}
 ```
 
 </div>
 
-<div class="ml-4">
+<div class="ml-4" v-click="2">
 
 ```typescript
 try {
-} catch {}
+  doSomethingElse();
+} catch {
+  logErrors();
+}
 ```
 
 </div>
 
+<div class="ml-4" v-click="10">
+
+```typescript
+function doSomethingAndLogErrors() {
+  try {
+    doSomething();
+  } catch {
+    logErrors();
+  }
+}
+```
+
 </div>
+
+<div class="ml-4" v-click="11">
+
+```typescript
+function doAndLogErrors(f) {
+  try {
+    f();
+  } catch {
+    logErrors();
+  }
+}
+```
+
+</div>
+
+
+</div>
+
+<v-click at="6">
+
+- As a pattern: replace body with callback
+
+</v-click>
+
+<ol>
+<li v-click="7">identify <em>before</em></li>
+<li v-click="8">identify <em>after</em></li>
+<li v-click="9">identify <em>body</em></li>
+<li v-click="10">Extract the whole thing as a function</li>
+<li v-click="11">Extract the body of the function as a callback passed as an argument</li>
+</ol>
+
+---
+
+# Workshop
+
+<v-clicks>
+
+- a) Take a look at files at `./examples/`
+  - look at the code and try to figure out a logical structure
+  - stratify the code into logical layers 
+  - should work well as a pair-programming excercise
+- b) Think about a piece of code you wrote today / this week
+  - Think about the strata in that code
+  - sketch out a call graph with arrows of different length
+  - would it make sense to move something around?
+  - would that bring any benefits in terms of maintainability / readability / testability?
+
+</v-clicks>
+
+
