@@ -18,7 +18,7 @@ other: none
 <v-clicks>
 
 - Some background
-- Startified design as a concept
+- Stratified design as a concept
 - Coding
 - Recap
 
