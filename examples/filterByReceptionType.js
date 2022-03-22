@@ -1,4 +1,6 @@
-const filterByReceptionType = async (publication, receptionTypes) => {
+import { getPublicationAndAuthor } from "./filterByReceptionTypeDeps";
+
+export const filterByReceptionType = async (publication, receptionTypes) => {
   if (
     receptionTypes.includes("original") &&
     (publication.receptionOf.length === 0 ||
@@ -14,6 +16,7 @@ const filterByReceptionType = async (publication, receptionTypes) => {
   ) {
     for (const sourceId of publication.receptionOf) {
       const authorAndPub = await getPublicationAndAuthor(sourceId);
+      console.log(authorAndPub.publication.receptions);
       for (const receptionType of receptionTypes) {
         if (
           authorAndPub.publication.receptions[receptionType] &&
@@ -28,5 +31,3 @@ const filterByReceptionType = async (publication, receptionTypes) => {
   }
   return false;
 };
-
-export { filterByReceptionType };
