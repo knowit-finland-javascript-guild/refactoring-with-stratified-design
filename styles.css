@@ -1,0 +1,22 @@
+html {
+  --knowit-sand: #e4e1db;
+  --knowit-black: #333333;
+  --knowit-forest: #4b6455;
+}
+
+#slide-content {
+  background-color: var(--knowit-sand);
+  color: var(--knowit-black);
+}
+
+#slide-content h1 {
+  color: var(--knowit-forest);
+}
+
+.col-right {
+  padding-left: 2em;
+}
+
+.image-on-right {
+  max-height: 60vh;
+}

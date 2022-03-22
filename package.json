@@ -1,0 +1,36 @@
+{
+  "name": "refactoring-with-stratified-design",
+  "version": "1.0.0",
+  "description": "- low-level code: good candidate for extraction - beware of black boxes and obscurity patterns",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "slidev build",
+    "slidev": "slidev --open",
+    "export": "slidev export"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KnowitJSTSGuild/refactoring-with-stratified-design.git"
+  },
+  "keywords": [],
+  "author": "Juho Härme",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KnowitJSTSGuild/refactoring-with-stratified-design/issues"
+  },
+  "homepage": "https://github.com/KnowitJSTSGuild/refactoring-with-stratified-design#readme",
+  "devDependencies": {
+    "@slidev/cli": "^0.28.10",
+    "@slidev/theme-default": "*",
+    "@slidev/theme-seriph": "*",
+    "drauu": "^0.3.0",
+    "eslint": "^8.10.0",
+    "playwright-chromium": "^1.20.0",
+    "vite": "^2.8.6",
+    "vitest": "^0.6.0"
+  },
+  "dependencies": {
+    "slidev-theme-light-icons": "^1.0.2"
+  }
+}
