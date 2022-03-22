@@ -1,4 +1,4 @@
-_Check out `slides.md` or `slides-export.pdf` for the actual content!_
+_Read `slides.md` or `slides-export.pdf` for the actual content!_
 
 # Workshop
 
