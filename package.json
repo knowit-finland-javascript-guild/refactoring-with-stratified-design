@@ -4,7 +4,7 @@
   "description": "- low-level code: good candidate for extraction - beware of black boxes and obscurity patterns",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "vitest examples",
     "build": "slidev build",
     "slidev": "slidev --open",
     "export": "slidev export"
