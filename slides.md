@@ -9,8 +9,10 @@ drawings:
 ---
 
 ---
+
 layout: intro
 other: none
+
 ---
 
 # Outline
@@ -37,20 +39,20 @@ other: none
 </v-clicks>
 
 ---
+
 layout: image-right
 image: https://images.manning.com/360/480/resize/book/1/95bb6e9-2f59-4e68-b339-933d823d5006/Grokking_Simplicity_hires.png
+
 ---
 
 - Normand, Eric 2021: Grokking simplicity. Manning.
 
 <v-clicks>
 
--  *Stratified design* 
--  Some basic refactoring patterns
+- _Stratified design_
+- Some basic refactoring patterns
 
 </v-clicks>
-
-
 
 ---
 
@@ -73,8 +75,10 @@ const scoreCards: ScoreCard = [
 ```
 
 ---
+
 layout: two-cols
 other: none
+
 ---
 
 ```typescript{11-27|0|14|23|13,17|18,19,20|21|all}
@@ -119,6 +123,7 @@ const convertResultsToCsvRows = (players: Player[]): string[] => {
 </v-click>
 
 <v-click>
+
 ```mermaid
 flowchart TD
 convertResultsToCsvRows --> getPlayersCard ---> nativem
@@ -127,11 +132,12 @@ convertResultsToCsvRows ------> nativem[native array methods]
 convertResultsToCsvRows ------> forl[for loop]
 convertResultsToCsvRows ------> arrI[array index]
 ```
+
 </v-click>
 
 ---
-layout: two-cols
----
+
+## layout: two-cols
 
 # Some principles
 
@@ -143,7 +149,6 @@ layout: two-cols
 
 </v-clicks>
 
-
 <v-clicks at="5">
 
 - Maintainability, testability, reusability
@@ -151,9 +156,7 @@ layout: two-cols
 
 </v-clicks>
 
-
 ::right::
-
 
 <v-click at="4">
 
@@ -201,4 +204,3 @@ try {
 </div>
 
 </div>
-
