@@ -16,3 +16,7 @@ html {
 .col-right {
   padding-left: 2em;
 }
+
+.image-on-right {
+  max-height: 60vh;
+}

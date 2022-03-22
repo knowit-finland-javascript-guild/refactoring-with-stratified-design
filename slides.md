@@ -9,10 +9,8 @@ drawings:
 ---
 
 ---
-
 layout: intro
 other: none
-
 ---
 
 # Outline
@@ -37,6 +35,22 @@ other: none
 - Fun?
 
 </v-clicks>
+
+---
+layout: image-right
+image: https://images.manning.com/360/480/resize/book/1/95bb6e9-2f59-4e68-b339-933d823d5006/Grokking_Simplicity_hires.png
+---
+
+- Normand, Eric 2021: Grokking simplicity. Manning.
+
+<v-clicks>
+
+-  *Stratified design* 
+-  Some basic refactoring patterns
+
+</v-clicks>
+
+
 
 ---
 
@@ -115,22 +129,76 @@ convertResultsToCsvRows ------> arrI[array index]
 ```
 </v-click>
 
-<!--
+---
+layout: two-cols
+---
 
-- when to think about perf?
-- "too many functions!!"
-- asldkjasd
+# Some principles
 
-- basic principles: actions, calculations data
+<v-clicks>
 
-  - actions inevitable
+- "Arrow length": reaching out to features on a different layer
+- Level of details vs. current level of thinking
+- Abstraction barriers: set of functions forming a line not to be crossed
 
-- books:
+</v-clicks>
 
-  - grokking
-  - 5 lines of code + fowlerian stuff
-  - TDD in django book (attitude)
 
-- tools:
-  - slidev
--->
+<v-clicks at="5">
+
+- Maintainability, testability, reusability
+- Cf. traditional concept of domains
+
+</v-clicks>
+
+
+::right::
+
+
+<v-click at="4">
+
+```mermaid
+flowchart TD
+drawChart --> addAxisX
+drawChart --> addAxisY
+drawChart --> addLabels
+drawChart --> addTooltip
+addLabels --> formatChartText
+addTooltip --> formatChartText
+formatChartText ----> ol[access object properties]
+formatChartText ----> ts[template strings]
+formatChartText ----> am[native methods like join]
+addAxisX ---> cl1[Some chart library method]
+addAxisY ---> cl1 --->cap[Canvas api]
+```
+
+</v-click>
+
+---
+
+# Conceptualizing a familiar process
+
+- How to make a language feature first-class?
+
+<div class="flex" v-click>
+
+<div>
+
+```typescript
+try {
+} catch {}
+```
+
+</div>
+
+<div class="ml-4">
+
+```typescript
+try {
+} catch {}
+```
+
+</div>
+
+</div>
+
