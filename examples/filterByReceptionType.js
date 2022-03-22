@@ -16,7 +16,6 @@ export const filterByReceptionType = async (publication, receptionTypes) => {
   ) {
     for (const sourceId of publication.receptionOf) {
       const authorAndPub = await getPublicationAndAuthor(sourceId);
-      console.log(authorAndPub.publication.receptions);
       for (const receptionType of receptionTypes) {
         if (
           authorAndPub.publication.receptions[receptionType] &&

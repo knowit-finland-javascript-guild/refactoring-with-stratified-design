@@ -1,21 +1,64 @@
 import { describe, it, expect, vi } from "vitest";
 import { filterByReceptionType } from "./filterByReceptionType";
-vi.mock("./filterByReceptionTypeDeps", () => ({
-  getPublicationAndAuthor: async () => ({
-    publication: {
-      receptions: {
-        translation: ["moro vaan"],
-      },
-    },
-  }),
-}));
+import { getPublicationAndAuthor } from "./filterByReceptionTypeDeps";
+vi.mock("./filterByReceptionTypeDeps");
 
 describe("filterByReceptionType", () => {
-  it("does something", () => {
+  it("returns true if reception exists", async () => {
+    const pubId = "xxxx";
+    getPublicationAndAuthor.mockImplementation(async () => ({
+      publication: {
+        receptions: {
+          translation: [pubId],
+        },
+      },
+    }));
     const publication = {
-      receptionOf: ["lkjasda", "oaisdoaisdj"],
+      _id: pubId,
+      receptionOf: ["yyy"],
     };
-    filterByReceptionType(publication, ["translation"]);
-    ////expect(true).toBe(true);
+    const passesFilter = await filterByReceptionType(publication, [
+      "translation",
+    ]);
+    expect(passesFilter).toEqual(true);
+  });
+
+  it("returns false if reception does not exist", async () => {
+    const pubId = "xxxx";
+    getPublicationAndAuthor.mockImplementation(async () => ({
+      publication: {
+        receptions: {
+          translation: ["other-id"],
+        },
+      },
+    }));
+    const publication = {
+      _id: pubId,
+      receptionOf: ["yyy"],
+    };
+    const passesFilter = await filterByReceptionType(publication, [
+      "translation",
+    ]);
+    expect(passesFilter).toEqual(false);
+  });
+
+  it("returns true if searching for originals and is not a reception", async () => {
+    const publication = {
+      _id: "xx",
+      receptionOf: [],
+    };
+    const passesFilter = await filterByReceptionType(publication, ["original"]);
+    expect(passesFilter).toEqual(true);
+  });
+
+  it("returns false if no receptions and not searching for originals", async () => {
+    const publication = {
+      _id: "xx",
+      receptionOf: [],
+    };
+    const passesFilter = await filterByReceptionType(publication, [
+      "translation",
+    ]);
+    expect(passesFilter).toEqual(false);
   });
 });
