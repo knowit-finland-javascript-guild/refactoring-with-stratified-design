@@ -1,0 +1,79 @@
+// Vitest Snapshot v1
+
+exports[`createNavigation > Prints a navigation list with subitems 1`] = `
+<body
+  style="overflow: auto;"
+>
+  <div>
+    <h3
+      class="hlpresentation"
+      id="defaultcontentheader"
+    >
+      Sisältö
+    </h3>
+    <ul
+      class="hlnavsection"
+      id="navigator_sectionlist"
+    >
+      <li
+        class="unhlsection"
+      >
+        <button>
+          First item
+        </button>
+      </li>
+      <li
+        class="unhlsection"
+      >
+        <button>
+          Second item
+        </button>
+      </li>
+      <li
+        class="unhlsection"
+      >
+        <button>
+          A nested one
+        </button>
+        <ul>
+          <li
+            class="unhlsection"
+          >
+            <button>
+              First subitem
+            </button>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+  <section
+    class=""
+    id="navigatorcontainer"
+  >
+    <section
+      class="navchildsec"
+      id="section_nav"
+    />
+    <section
+      class="navchildsec"
+      id="previewer"
+    />
+    <div
+      class=""
+      id="addedcontentparent"
+    >
+      <h3
+        class="unhlpresentation"
+        id="addedcontentheader"
+      >
+        Lisätty sisältö
+      </h3>
+      <div
+        class=""
+        id="addedcontent"
+      />
+    </div>
+  </section>
+</body>
+`;

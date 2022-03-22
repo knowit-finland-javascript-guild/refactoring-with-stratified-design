@@ -21,3 +21,6 @@ b. Think about a piece of code you wrote today / this week
 - Think about possible refactorings:
   - would it make sense to move something around
   - would that bring any benefits in terms of maintainability / readability / testability?
+- If time allows:
+  - sketch call graphs of the original code and the refactored code
+  - compare

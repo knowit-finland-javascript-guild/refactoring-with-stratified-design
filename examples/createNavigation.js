@@ -7,24 +7,22 @@ function movePres() {
 }
 
 function listToLink(this_li) {
+  const button = document.createElement("button");
+  const text = this_li.textContent;
+  button.textContent = text;
+  this_li.textContent = "";
+  this_li.appendChild(button);
   this_li.addEventListener("click", movePres, false);
 }
 
-function clearContent(myNode) {
-  //Remove child nodes,
-  while (myNode.firstChild) {
-    myNode.removeChild(myNode.firstChild);
-  }
-}
-
-function createTag(tagname, barid, thisdocument, tagclass, parenttag) {
-  var bar = thisdocument.createElement(tagname);
-  bar.id = barid;
-  bar.className = tagclass;
+function createTag(tagname, id, thisdocument, tagclass, parenttag) {
+  var el = thisdocument.createElement(tagname);
+  el.id = id;
+  el.className = tagclass;
   if (parenttag !== undefined) {
-    parenttag.appendChild(bar);
+    parenttag.appendChild(el);
   }
-  return bar;
+  return el;
 }
 
 function tagWithText(tagname, tagtext, tagclass) {
@@ -56,7 +54,6 @@ export function createNavigation(items) {
     ""
   );
 
-  //This is where the general navigation between sections is
   createTag(
     "section",
     "section_nav",
@@ -64,7 +61,7 @@ export function createNavigation(items) {
     "navchildsec",
     navigatorcontainer
   );
-  //This is where the upcoming/previous slides will be presented
+
   createTag(
     "section",
     "previewer",
@@ -78,6 +75,7 @@ export function createNavigation(items) {
     "Lisätty sisältö",
     "unhlpresentation"
   );
+
   addedContentHeader.id = "addedcontentheader";
   navigatorcontainer.appendChild(
     tagParent(

@@ -4,7 +4,7 @@ import { createNavigation } from "./createNavigation";
 import { screen } from "@testing-library/dom";
 
 describe("createNavigation", () => {
-  it("prints a navigation list for a default kind of presentation", () => {
+  it("Prints a navigation list with subitems", () => {
     const items = [
       { name: "First item", type: "text" },
       { name: "Second item", type: "text" },
@@ -15,7 +15,11 @@ describe("createNavigation", () => {
       },
     ];
     createNavigation(items);
-    screen.debug();
-    // expect(document.body).toMatchSnapshot();
+    expect(document.body).toMatchSnapshot();
+  });
+
+  it("Prints Untitled for items without names", () => {
+    createNavigation([{ name: "", type: "text" }]);
+    expect(screen.getByText("Untitled")).not.toBeFalsy();
   });
 });

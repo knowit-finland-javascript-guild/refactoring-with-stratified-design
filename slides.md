@@ -9,10 +9,8 @@ drawings:
 ---
 
 ---
-
 layout: intro
 other: none
-
 ---
 
 # Outline
@@ -39,10 +37,8 @@ other: none
 </v-clicks>
 
 ---
-
 layout: image-right
 image: https://images.manning.com/360/480/resize/book/1/95bb6e9-2f59-4e68-b339-933d823d5006/Grokking_Simplicity_hires.png
-
 ---
 
 - Normand, Eric 2021: Grokking simplicity. Manning.
@@ -75,10 +71,8 @@ const scoreCards: ScoreCard = [
 ```
 
 ---
-
 layout: two-cols
 other: none
-
 ---
 
 ```typescript{11-27|0|14|23|13,17|18,19,20|21|all}
