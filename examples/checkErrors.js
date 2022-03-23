@@ -1,3 +1,21 @@
+function xxxx() {}
+
+function validateAuthors(authors) {
+  if (authors.length !== 0) {
+    return {
+      step: 2,
+      msg: "The dataset has no authors",
+      level: "warning",
+    };
+  }
+}
+
+function validateResourceType() {}
+
+function validateContactPerson() {}
+
+function validateTitle() {}
+
 export function checkErrors(fields) {
   const {
     title,
@@ -7,13 +25,22 @@ export function checkErrors(fields) {
   } = fields;
   const invalidFields = [];
 
-  if (authors.length === 0) {
+  const errorMessages = {
+    authors: { step: 2, msg: "The dataset has no authors", level: "warning" },
+    resourcetype,
+    contactPerson,
+  };
+
+  const arrayOfRules = [];
+
+  if (!validateAuthors(authors)) {
     invalidFields.push({
       step: 2,
       msg: "The dataset has no authors",
       level: "warning",
     });
   }
+
   if (!resourcetype) {
     invalidFields.push({
       step: 0,
