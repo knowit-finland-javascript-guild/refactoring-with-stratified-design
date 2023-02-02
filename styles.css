@@ -20,3 +20,7 @@ html {
 .image-on-right {
   max-height: 60vh;
 }
+
+.withScroll pre {
+  max-height: 450px
+}

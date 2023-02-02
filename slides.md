@@ -145,7 +145,7 @@ have performed on the course.
 ---
 layout: two-cols
 other: none
-clicks: 14
+clicks: 13
 ---
 
 ```typescript{11-27|0|14|23|13,17|18,19,20|21|all|13,17,18,19,20,24|3-5|7-8|0|all}
@@ -184,11 +184,10 @@ const convertResultsToCsvRows = (players: Player[]): string[] => {
 <li v-click="8">native language features</li>
 <li v-click="9">generic function</li>
 <li v-click="10">specific functions of domain X  </li>
-<li v-click="11">specific functions of domain Y  </li>
 
 </ul>
 
-<v-click at="13">
+<v-click at="12">
 
 ```mermaid
 flowchart TD
@@ -271,47 +270,283 @@ implementation.
 
 -->
 
+---
+other: none
+clicks: 5
+---
+
+# Examples from a KOA api
+
+
+```typescript{0|all|5|7|5}
+router.post(
+  "/api/alarms",
+  async (ctx) => {
+    const alarmProps = validatePostAlarmProps(ctx.request.body);
+    await createAlarm(alarmProps);
+    ctx.status = 200;
+    ctx.body = { message: "Alarm created" };
+  },
+);
+
+```
+
+<!--
+
+Now let me move on to the more realistic example promised earlier. 
+
+Here we have a nodejs api built using a framework called KOA which has, 
+for instance, the  following endpoint used for creating entities called alarms.
+
+So the point of this api endpoint is to use properties given by a user and create
+an alarm - whatever that means in this context - based on those properties.
+
+Now how is this alarm created? Obviously the logic is inside the createAlarm function.
+But note that that is quite easy to figure out. If I am only worried about, say, 
+fixing the message returned in the body of the API response that's all I need to 
+know about the internal logic of how the alarm is created.
+
+Now this particular endpoint is a newer one, built consciously with 
+the idea in mind that we're following a certain pattern, we a exlicitly
+desinging the architecture of our code, not just writing code and 
+looking at the results.
+
+Let's, however, turn to an older endpoint... note that the actual contents are changed from the original,
+but nevertheless, the gist should be clear enough:
+
+-->
+
+---
+clicks: 4
+---
+
+<div class="withScroll">
+
+```typescript{0|all|51}
+
+router.post("/api/items", authenticationRequired, logQueryDetails, async (ctx: PublicContext) => {
+  const table: string = 'items'
+
+  const rp: { [key: string]: any } = ctx.request.body;
+  const { params } = rp as { id: string; parentId: string };
+
+  const key = getKey(id, parentId);
+
+  if (key) {
+    const tags: { [key: string]: string }[] = [];
+    const searchTerms = Object.keys(rp)
+      .filter((key) => !["id", "parentId"].includes(key))
+      .reduce((obj: { [key: string]: string }, key) => {
+        obj[key] = rp[key];
+        return obj;
+      }, {});
+
+
+    const result = await connector.select("*").from(table).where({ id_key: key });
+
+    for (const item of result) {
+      const tagAttributes = tag["tag_attributes"] ?? {};
+      const valmetTagInfo = tagAttributes["valmet_tag"] ?? {};
+      const matching: boolean[] = [];
+      for (const p of Object.keys(searchTerms)) {
+        if (parameters.includes(p)) {
+          if (valmetTagInfo[p] === searchTerms[p]) {
+            matching.push(true);
+          } else {
+            matching.push(false);
+          }
+        }
+      }
+      const match =
+        matching.length > 0
+          ? matching.every(function (m) {
+              return m === true;
+            })
+          : false;
+
+      if (match) {
+        const tagInfo = {
+          id: id ?? item.id,
+          parentId: parentId ?? item.lineid,
+          name: item.name,
+        };
+        items.push(tagInfo);
+      }
+    }
+    ctx.status = 200;
+    ctx.body = tags;
+  } else {
+    ctx.throw("Missing id");
+  }
+});
+
+```
+
+</div>
+
+<!--
+
+No need to go through this line by line but it's clear that this is a completely different
+story: It's rather hard to know what is the level of detail I should concern myself with
+when reading the code for this endpoint. If I am, again, concerned with, say, 
+changing the status code or looking at request parameters, I have to make 
+quite an effort in order to dig out the information I need. 
+
+Let's contrast this with the inner details of the createAlarm function mentioned earlier
+
+-->
+
+
+---
+
+
+```typescript{0|1-2|3-9|8|5}
+
+export const createAlarm = async (inputProps: FormattedAlarm, id: string, parentId: string, token: string, connector: Knex) => {
+  const userId = builduserId(token);
+  const alarmItem = buildNewAlarmItem(inputItem, inputProps, id, parentId);
+  const analysisEntry = buildAnalysisEntry(inputItem, userId);
+  const nextModelVersion = await getNextModelVersion(analysisEntry?.code, connector).catch(handleDbError);
+  const modelAttributes = buildModelAttributes(inputProps.alarmSeverity, inputProps.warningSeverity, inputItem);
+  const modelEntry = buildModelEntry( analysisEntry?.analysis_code);
+  await writeAlarmToDb(connector, modelEntry, alarmItem, analysisEntry, tagModelEntries, idate);
+};
+
+```
+
+<!--
+
+It is quite clear that creating an alram is actually a rather complex process. However,
+when dealing with creating an alarm a developer looking at this code does not 
+have to be concerned with all the details of the process. This is  a rather straight-forward implementation
+dealing with similar levels of abstraction: 
+
+1. we are building the different blocks used in creating an alarm
+2. we write the built alarm to database
+
+Now, if I am concerned with something happening in the logic of interacting with the database,
+I know where to go. If I need to dig into how the next version of a model is built,  I
+know where to go and so on ans so forth. If we were to draw a call graph out of this, we would get
+something pretty flat like:
+
+-->
+
+
+---
+
+```mermaid
+flowchart TD
+createAlarm ---> builduserId
+createAlarm --> buildNewAlarmItem
+createAlarm --> buildAnalysisEntry
+createAlarm ----> getNextModelVersion
+createAlarm --> buildModelAttributes
+createAlarm --> buildModelEntry
+createAlarm ----> writeAlarmToDb
+```
+
+
+<!--
+
+And, moving on, if we were to check the implementation of.. let's say  buildNewAlarmItem
+it would look along these lines
+
+-->
 
 ---
 layout: two-cols
 other: none
+clicks: 4
 ---
 
-# Some principles
+```typescript{all}
 
-<v-clicks>
+export const buildNewAlarmItem = (
+  inputItem: ItemMetadata | undefined,
+  inputProps: FormattedAlarm,
+  id: string,
+  parentId: string,
+): ItemMetadata | undefined => {
+  if (!inputItem) return;
+  const { limitType, alarmDescription } = inputProps;
+  const key = generateAlarmItemKey(inputItem, id, parentId, limitType);
+  const name = generateAlarmItemName(inputItem);
+  const description = generateItemDescription(inputItem, alarmDescription);
+  return {
+    item_key,
+    item_name,
+    item_description,
+    uby: userId,
+    iby: userId,
+    item_type: "AlarmItemType",
+  };
+};
 
-- "Arrow length": reaching out to features on a different layer
-- Level of details vs. current level of thinking
-- Abstraction barriers: set of functions forming a line not to be crossed
+```
 
-</v-clicks>
+::right::
 
-<v-clicks at="5">
+<v-click at="2">
 
-- Maintainability, testability, reusability
-- Cf. traditional concept of domains
+```mermaid
+flowchart TD
+createAlarm --> buildNewAlarmItem
+buildNewAlarmItem ---> generateAlarmItemKey
+buildNewAlarmItem ---> generateAlarmItemName
+buildNewAlarmItem ---> generateItemDescription
+generateAlarmItemKey ---> la[language features]
+```
 
-</v-clicks>
+</v-click>
+
+<!--
+
+or we could check out getNextModelVersion, it would be dealing with these kinds of
+levels of specificity
+-->
+
+
+---
+layout: two-cols
+other: none
+clicks: 4
+---
+
+
+```typescript
+
+
+export const getNextModelVersion = async (code: string | undefined, connector: Knex) => {
+  if (!code)  return;
+  const selectedColumns: (keyof Model)[] = ["col1"];
+  const query = () =>
+    connector
+      .select<Partial<Model>[]>(selectedColumns)
+      .from(tableName)
+      .where("xxx", code)
+      .orderByRaw("length(col1) DESC")
+      .orderByRaw("col1 DESC")
+      .limit(1);
+  const result = await runQueryAndReportErrors(query);
+  if (!result?.length) return "1";
+  const latestVersion = result[0].col1;
+  const nextVersion = Number(latestVersion) + 1;
+  return nextVersion.toString();
+};
+
+```
 
 
 ::right::
 
-<v-click at="4">
+
+<v-click at="2">
 
 ```mermaid
 flowchart TD
-drawChart --> addAxisX
-drawChart --> addAxisY
-drawChart --> addLabels
-drawChart --> addTooltip
-addLabels --> formatChartText
-addTooltip --> formatChartText
-formatChartText ----> ol[access object properties]
-formatChartText ----> ts[template strings]
-formatChartText ----> am[native methods like join]
-addAxisX ---> cl1[Some chart library method]
-addAxisY ---> cl1 --->cap[Canvas api]
+getNextModelVersion --> runQueryAndReportErrors
+getNextModelVersion ---> kn[knex methods]
+getNextModelVersion ---> lf[array index, string methods]
 ```
 
 </v-click>
@@ -319,17 +554,93 @@ addAxisY ---> cl1 --->cap[Canvas api]
 
 
 ---
-clicks: 13
+layout: two-cols
+other: none
 ---
 
+<div class="withScroll">
 
-# KOA api as an example
+```typescript{0|all|51}
 
+router.post("/api/items", authenticationRequired, logQueryDetails, async (ctx: PublicContext) => {
+  const table: string = 'items'
+
+  const rp: { [key: string]: any } = ctx.request.body;
+  const { params } = rp as { id: string; parentId: string };
+
+  const key = getKey(id, parentId);
+
+  if (key) {
+    const tags: { [key: string]: string }[] = [];
+    const searchTerms = Object.keys(rp)
+      .filter((key) => !["id", "parentId"].includes(key))
+      .reduce((obj: { [key: string]: string }, key) => {
+        obj[key] = rp[key];
+        return obj;
+      }, {});
+
+
+    const result = await connector.select("*").from(table).where({ id_key: key });
+
+    for (const item of result) {
+      const tagAttributes = tag["tag_attributes"] ?? {};
+      const valmetTagInfo = tagAttributes["valmet_tag"] ?? {};
+      const matching: boolean[] = [];
+      for (const p of Object.keys(searchTerms)) {
+        if (parameters.includes(p)) {
+          if (valmetTagInfo[p] === searchTerms[p]) {
+            matching.push(true);
+          } else {
+            matching.push(false);
+          }
+        }
+      }
+      const match =
+        matching.length > 0
+          ? matching.every(function (m) {
+              return m === true;
+            })
+          : false;
+
+      if (match) {
+        const tagInfo = {
+          id: id ?? item.id,
+          parentId: parentId ?? item.lineid,
+          name: item.name,
+        };
+        items.push(tagInfo);
+      }
+    }
+    ctx.status = 200;
+    ctx.body = tags;
+  } else {
+    ctx.throw("Missing id");
+  }
+});
+
+```
+
+</div>
+
+
+::right::
 
 <v-clicks>
 
-- Task: create an alarm
+- Tools to conceptualize "you should make this more readable"
+- Aiming for straightforward implementations
+- Helping future readers with the level of detail needed
+
 
 </v-clicks>
 
 
+---
+
+# Literature
+
+- Normand, Eric 2021: Grokking simplicity. Manning.
+- Płachta, Michał 2022: Grokking functional Programming. Manning
+- Abelson, Harold  & Sussman, Gerald 1985: Structure and Interpretation of Computer Programs
+
+---

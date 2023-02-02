@@ -1,20 +1,6 @@
-function xxxx() {}
-
-function validateAuthors(authors) {
-  if (authors.length !== 0) {
-    return {
-      step: 2,
-      msg: "The dataset has no authors",
-      level: "warning",
-    };
-  }
+function isValid(field) {
+  return field && field.length > 0;
 }
-
-function validateResourceType() {}
-
-function validateContactPerson() {}
-
-function validateTitle() {}
 
 export function checkErrors(fields) {
   const {
@@ -25,37 +11,28 @@ export function checkErrors(fields) {
   } = fields;
   const invalidFields = [];
 
-  const errorMessages = {
-    authors: { step: 2, msg: "The dataset has no authors", level: "warning" },
-    resourcetype,
-    contactPerson,
-  };
-
-  const arrayOfRules = [];
-
-  if (!validateAuthors(authors)) {
+  if (!isValid(authors)) {
     invalidFields.push({
       step: 2,
       msg: "The dataset has no authors",
       level: "warning",
     });
   }
-
-  if (!resourcetype) {
+  if (!isValid(resourcetype)) {
     invalidFields.push({
       step: 0,
       msg: "Pick a type for the dataset",
       level: "error",
     });
   }
-  if (!contactPerson || contactPerson.length === 0) {
+  if (!isValid(contactPerson)) {
     invalidFields.push({
       step: 3,
       msg: "At least one contact person is needed",
       level: "error",
     });
   }
-  if (!title) {
+  if (!isValid(title)) {
     invalidFields.push({
       step: 0,
       msg: "The dataset needs to have a name",
