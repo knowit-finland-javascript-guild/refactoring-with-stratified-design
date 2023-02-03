@@ -1,15 +1,18 @@
 ---
 layout: cover
+author: Juho Harme
 drawings:
   enabled: true
 ---
 
 # Refactoring with stratified design
 
+Juho Härme 
+
 <!-- 
 
 Hi there, so, my talk is not about the cool new frameworks out there, but about 
-something mysterious called Stratifies design.
+something mysterious called Stratifies design....
 
 And there's another word - refactoring.... Ideally, you would want to talk about designing and
 how you start a new project with a perfect design, a perfectly clear way to think
@@ -54,7 +57,7 @@ So, just to quickly sum up the journey I'm trying to take you guys onto:
 
 <v-click>
 
-![stratum is latin](/wikipedia_ss.png)
+![stratum is latin](https://hrmj.github.io/refactoring-with-stratified-design/wikipedia_ss.png)
 
 </v-click>
 
@@ -643,4 +646,17 @@ router.post("/api/items", authenticationRequired, logQueryDetails, async (ctx: P
 - Płachta, Michał 2022: Grokking functional Programming. Manning
 - Abelson, Harold  & Sussman, Gerald 1985: Structure and Interpretation of Computer Programs
 
+
+
+<div class="mt-7">
+<ul class="text-sm list-none ml-0">
+<li class='list-none ml-0'>Blog: https://hrmj.hashnode.dev/</li>
+<li class="list-none ml-0">Twitter: @jharme</li>
+</ul>
+</div>
+
+
+
 ---
+
+
