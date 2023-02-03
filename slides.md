@@ -13,6 +13,7 @@ Juho Härme
 
 Hi there, so, my talk is not about the cool new frameworks out there, but about 
 something mysterious called Stratifies design....
+..
 
 And there's another word - refactoring.... Ideally, you would want to talk about designing and
 how you start a new project with a perfect design, a perfectly clear way to think
